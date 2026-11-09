@@ -1,0 +1,150 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Fahad Enterprise Transport Management System</title>
+<style>
+:root{color-scheme:dark;--bg:#0a1330;--bg2:#13204d;--card:rgba(255,255,255,.07);--bd:rgba(255,255,255,.15);--tx:#f4f7ff;--mu:#9fb0d4;--ac:#c9d4ea;--ok:#4ade80;--bad:#f87171;--warn:#fbbf24;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;font:14px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--tx);background:radial-gradient(1200px 700px at 80% -10%,#24387a 0,transparent 60%),linear-gradient(160deg,var(--bg),#050a1c);min-height:100vh}
+#app{display:flex;min-height:100vh}
+nav{width:220px;padding:16px 12px;background:rgba(5,10,28,.7);backdrop-filter:blur(14px);border-right:1px solid var(--bd);position:sticky;top:0;height:100vh;overflow:auto;flex:none}
+.logo{font-weight:800;letter-spacing:.5px;color:#fff;margin:4px 8px 16px;line-height:1.2}.logo small{display:block;color:var(--mu);font-weight:500;font-size:11px}
+nav a{display:block;padding:10px 12px;border-radius:10px;color:var(--mu);cursor:pointer;margin-bottom:3px;transition:.2s}
+nav a:hover,nav a.on{background:linear-gradient(90deg,rgba(201,212,234,.2),transparent);color:#fff;transform:translateX(3px)}
+main{flex:1;padding:20px;min-width:0}
+h1{font-size:22px;margin:0 0 14px}h3{margin:0 0 10px;font-size:15px;color:var(--ac)}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:16px;backdrop-filter:blur(12px);box-shadow:0 10px 30px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.1);margin-bottom:14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:14px}
+.stat{transition:.3s;transform-style:preserve-3d}.stat:hover{transform:perspective(600px) rotateX(6deg) translateY(-4px)}
+.stat b{display:block;font-size:20px;margin-top:4px}.stat span{color:var(--mu);font-size:12px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+button,select,input,textarea{font:inherit;color:var(--tx);background:rgba(255,255,255,.08);border:1px solid var(--bd);border-radius:10px;padding:8px 10px}
+button{cursor:pointer;background:linear-gradient(180deg,#3b5bb5,#25398a);border:0;transition:.2s}button:hover{filter:brightness(1.2);transform:translateY(-1px)}
+button.s{background:rgba(255,255,255,.1)}button.d{background:#8b2a2a}
+select option{background:#13204d}
+.bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}.bar input{flex:1;min-width:140px}
+.tw{overflow-x:auto}table{width:100%;border-collapse:collapse;min-width:520px}th,td{text-align:left;padding:8px;border-bottom:1px solid var(--bd);white-space:nowrap}th{color:var(--mu);font-weight:600;font-size:12px}
+.pos{color:var(--ok)}.neg{color:var(--bad)}.tag{padding:2px 8px;border-radius:99px;background:rgba(255,255,255,.12);font-size:12px}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.65);display:none;align-items:center;justify-content:center;z-index:50;padding:12px}
+.modal>div{background:#101a40;border:1px solid var(--bd);border-radius:16px;padding:18px;width:min(560px,100%);max-height:90vh;overflow:auto}
+.fm{display:grid;grid-template-columns:1fr 1fr;gap:10px}.fm label{display:block;font-size:12px;color:var(--mu)}.fm input,.fm select{width:100%;margin-top:3px}
+#login{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:99;background:var(--bg)}#login .card{width:min(360px,92%)}#login input{width:100%;margin:6px 0}
+.stage{height:230px;perspective:900px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.tr{position:relative;width:0;height:0;transform-style:preserve-3d;transform:scale(.62) rotateX(-12deg) rotateY(30deg);animation:sp 16s linear infinite}
+.tr b,.tr i{position:absolute;left:0;top:0;transform-style:preserve-3d}.tr i{border:1px solid rgba(0,0,0,.3)}
+@keyframes sp{to{transform:scale(.62) rotateX(-12deg) rotateY(390deg)}}
+svg text{fill:var(--mu);font-size:10px}
+.pill{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px}
+@media(max-width:800px){#app{flex-direction:column}nav{width:100%;height:auto;position:sticky;top:env(safe-area-inset-top,0px);z-index:20;display:flex;overflow-x:auto;padding:8px;border-right:0;border-bottom:1px solid var(--bd)}.logo{display:none}nav a{white-space:nowrap;margin:0 4px 0 0}main{padding:12px}.g2,.fm{grid-template-columns:1fr}}
+@media print{nav,.bar,button{display:none!important}body{background:#fff;color:#000}.card{background:#fff;border-color:#999;box-shadow:none}th,td,h1,h3{color:#000}}
+</style></head><body>
+<div id="login"><div class="card"><div class="logo" style="margin:0 0 10px">FAHAD ENTERPRISE<small>Good Transport Company Registered</small></div><div id="lm"></div><input id="lu" type="email" placeholder="Admin email" autocomplete="username"><input id="lp" type="password" placeholder="Password" autocomplete="current-password"><button id="lb" style="width:100%" onclick="auth()">Sign in</button></div></div>
+<div id="app" style="display:none"><nav id="nv"></nav><main id="mn"></main></div>
+<div class="modal" id="md"><div id="mb"></div></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script>
+const $=s=>document.querySelector(s),K='fetms_v1';
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const R=n=>'PKR '+Math.round(+n||0).toLocaleString('en-PK');
+const uid=()=>Math.random().toString(36).slice(2,10),today=()=>new Date().toISOString().slice(0,10);
+let DB={trucks:[],drivers:[],customers:[],trips:[],ledger:[],gps:{},cfg:{url:'',key:'',prov:''}};
+try{const o=JSON.parse(localStorage.getItem(K)||'{}');DB.gps=o.gps||{};DB.cfg=o.cfg||DB.cfg}catch(e){}
+const save=()=>{try{localStorage.setItem(K,JSON.stringify({gps:DB.gps,cfg:DB.cfg}))}catch(e){}};
+const sb=supabase.createClient('https://ngispwwmzwftbpnywwaj.supabase.co','sb_publishable_jZTLVqEjAZkwgHVcvaeEyg_IPODx8wK');
+const MAP={trucks:{dev:'gps_device_id'},drivers:{truck:'truck_id'},customers:{},trips:{date:'trip_date',truck:'truck_id',driver:'driver_id',customer:'customer_id',from:'load_from',to:'deliver_to'},ledger:{date:'entry_date',truck:'truck_id',customer:'customer_id',driver:'driver_id'}};
+const NUM=['freight','diesel','other','amount','salary'],REF=['truck','driver','customer'];
+const toRow=(c,o)=>{const r={};for(const k in o){let v=o[k];if(NUM.includes(k))v=+v||0;else if(REF.includes(k))v=v||null;else if(k=='date')v=v||today();r[MAP[c][k]||k]=v}return r};
+const fromRow=(c,r)=>{const o={id:r.id};for(const k in r){if(['id','created_at','profit'].includes(k))continue;const e=Object.entries(MAP[c]).find(x=>x[1]==k);o[e?e[0]:k]=r[k]??''}return o};
+async function loadAll(){const cs=Object.keys(MAP);const rs=await Promise.all(cs.map(c=>sb.from(c).select('*').order('created_at')));rs.forEach((r,i)=>{if(r.error)throw r.error;DB[cs[i]]=r.data.map(x=>fromRow(cs[i],x))})}
+$('#lm').innerHTML='<p>Admin login</p>';
+async function auth(){const e=$('#lu').value.trim(),p=$('#lp').value;if(!e||!p)return alert('Enter email and password');
+$('#lb').disabled=true;const{error}=await sb.auth.signInWithPassword({email:e,password:p});$('#lb').disabled=false;if(error)return alert('Login failed: '+error.message);await boot(true)}
+async function boot(fresh){try{const{data:s}=await sb.auth.getSession();if(!s.session)return;const a=await sb.from('tms_admins').select('user_id').maybeSingle();if(!a.data){await sb.auth.signOut();if(fresh)alert('This account is not an authorized admin');return}
+await loadAll();$('#login').style.display='none';$('#app').style.display='flex';go('dash')}catch(e){alert('Could not load data: '+(e.message||e))}}
+$('#lp').addEventListener('keydown',e=>{if(e.key=='Enter')auth()});
+boot();
+async function wr(c,id,o){const row=toRow(c,o);const{error}=await(id?sb.from(c).update(row).eq('id',id):sb.from(c).insert(row));if(error)return alert('Save failed: '+error.message);cl();await loadAll();go(cur)}
+async function rm(c,id){const{error}=await sb.from(c).delete().eq('id',id);if(error)return alert('Delete failed: '+error.message);await loadAll();go(cur)}
+// ---------- schema
+const ST={trucks:['Available','On Trip','Maintenance'],trips:['Planned','Running','Completed','Cancelled']};
+const CATS=['Freight Income','Customer Payment','Diesel','Toll','Repair','Salary','Other'];
+const M={
+trucks:{t:'Trucks',f:[['reg','Registration No'],['model','Truck Model (e.g. Hino 22-wheeler)'],['dev','GPS Device ID'],['status','Status','sel',ST.trucks]],c:[['Reg No',r=>r.reg],['Model',r=>r.model],['Status',r=>r.status],['GPS ID',r=>r.dev||'-'],['Profit',r=>pf(TS(r.id))]],fl:'status'},
+trips:{t:'Trips',f:[['date','Date','date'],['truck','Truck','ref','trucks'],['driver','Driver','ref','drivers'],['customer','Customer','ref','customers'],['from','Loading Location'],['to','Delivery Location'],['cargo','Cargo Details'],['freight','Freight (PKR)','num'],['diesel','Diesel (PKR)','num'],['other','Other Expenses (PKR)','num'],['status','Status','sel',ST.trips]],c:[['Date',r=>r.date],['Truck',r=>lab('trucks',r.truck)],['Driver',r=>lab('drivers',r.driver)],['Customer',r=>lab('customers',r.customer)],['Route',r=>r.from+' → '+r.to],['Freight',r=>R(r.freight)],['Status',r=>r.status],['Profit',r=>pf(r.freight-r.diesel-r.other)]],fl:'status'},
+ledger:{t:'Finance Ledger',f:[['date','Date','date'],['type','Type','sel',['Income','Expense']],['category','Category','sel',CATS],['truck','Truck','ref','trucks'],['customer','Customer','ref','customers'],['driver','Driver','ref','drivers'],['amount','Amount (PKR)','num'],['note','Note / Reference']],c:[['Date',r=>r.date],['Type',r=>r.type],['Category',r=>r.category],['Truck',r=>lab('trucks',r.truck)],['Party',r=>r.customer?lab('customers',r.customer):lab('drivers',r.driver)],['Amount',r=>R(r.amount)],['Note',r=>r.note]],fl:'category'},
+customers:{t:'Customers',f:[['name','Customer Name'],['phone','Phone'],['company','Company'],['address','Address']],c:[['Name',r=>r.name],['Phone',r=>r.phone],['Company',r=>r.company],['Address',r=>r.address],['Outstanding',r=>pf(-CS(r.id).due,1)]]},
+drivers:{t:'Drivers',f:[['name','Driver Name'],['phone','Phone'],['truck','Assigned Truck','ref','trucks'],['salary','Monthly Salary (PKR)','num']],c:[['Name',r=>r.name],['Phone',r=>r.phone],['Truck',r=>lab('trucks',r.truck)],['Salary',r=>R(r.salary)],['Trips',r=>DB.trips.filter(t=>t.driver==r.id).length]]}};
+const pf=(v,inv)=>`<span class="${(inv?-v:v)>=0?'pos':'neg'}">${R(v)}</span>`;
+// ---------- accounting
+const flows=()=>[...DB.trips.filter(t=>t.status!='Cancelled').map(t=>({d:t.date,tr:t.truck,cu:t.customer,i:t.status=='Completed'?+t.freight||0:0,e:(+t.diesel||0)+(+t.other||0)})),
+...DB.ledger.filter(l=>l.category!='Customer Payment').map(l=>({d:l.date,tr:l.truck,cu:l.customer,i:l.type=='Income'?+l.amount||0:0,e:l.type=='Expense'?+l.amount||0:0}))];
+const sum=(f)=>f.reduce((a,x)=>a+x.i-x.e,0);
+const TS=id=>{const f=flows().filter(x=>x.tr==id);return f.reduce((a,x)=>a+x.i-x.e,0)};
+function CS(id){const b=DB.trips.filter(t=>t.customer==id&&t.status!='Cancelled').reduce((a,t)=>a+(+t.freight||0),0),p=DB.ledger.filter(l=>l.customer==id&&l.category=='Customer Payment').reduce((a,l)=>a+(+l.amount||0),0);return{b,p,due:b-p}}
+const tot=()=>{const f=flows();const i=f.reduce((a,x)=>a+x.i,0),e=f.reduce((a,x)=>a+x.e,0);return{i,e,p:i-e}};
+// ---------- nav
+const NAV=[['dash','Dashboard'],['trucks','Trucks'],['trips','Trips'],['ledger','Finance'],['customers','Customers'],['drivers','Drivers'],['reports','Reports'],['gps','Live GPS'],['out','Logout']];
+let cur='dash',Q={};
+function go(v){if(v=='out'){sb.auth.signOut().then(()=>location.reload());return}cur=v;
+$('#nv').innerHTML='<div class="logo">FAHAD ENTERPRISE<small>Good Transport Co. Registered</small></div>'+NAV.map(n=>`<a class="${n[0]==v?'on':''}" onclick="go('${n[0]}')">${n[1]}</a>`).join('');
+const m=$('#mn');m.innerHTML=v=='dash'?dash():v=='reports'?rep():v=='gps'?gps():list(v);if(v=='dash')truck3d();if(v=='gps')drawMap()}
+// ---------- generic CRUD
+function list(c){const m=M[c],q=(Q[c+'q']||'').toLowerCase(),fl=Q[c+'f']||'';
+let rows=DB[c].filter(r=>JSON.stringify(r).toLowerCase().includes(q)||m.c.some(h=>String(h[1](r)).toLowerCase().includes(q)));
+if(fl)rows=rows.filter(r=>r[m.fl]==fl);
+const opts=m.fl?(c=='trucks'?ST.trucks:c=='trips'?ST.trips:CATS):[];
+return`<h1>${m.t}</h1><div class="bar"><input placeholder="Search…" value="${esc(Q[c+'q']||'')}" oninput="Q['${c}q']=this.value;go('${c}');$('#mn input').focus();$('#mn input').setSelectionRange(99,99)">${m.fl?`<select onchange="Q['${c}f']=this.value;go('${c}')"><option value="">All</option>${opts.map(o=>`<option ${o==fl?'selected':''}>${o}</option>`).join('')}</select>`:''}<button onclick="form('${c}')">+ Add</button></div>
+<div class="card tw"><table><tr>${m.c.map(h=>`<th>${h[0]}</th>`).join('')}<th></th></tr>${rows.map(r=>`<tr>${m.c.map(h=>`<td>${typeof h[1](r)=='string'&&h[1](r).startsWith('<span')?h[1](r):esc(h[1](r))}</td>`).join('')}<td>${['trucks','customers','drivers'].includes(c)?`<button class="s" onclick="det('${c}','${r.id}')">View</button> `:''}<button class="s" onclick="form('${c}','${r.id}')">Edit</button> <button class="d" onclick="del('${c}','${r.id}')">Del</button></td></tr>`).join('')||`<tr><td colspan="9">No records yet.</td></tr>`}</table></div>`}
+function form(c,id){const m=M[c],r=DB[c].find(x=>x.id==id)||{};if(!id&&c=='trips')r.date=today(),r.status='Planned';if(!id&&c=='ledger')r.date=today();
+const inp=f=>{const[k,l,t,o]=f,v=r[k]??'';if(t=='sel')return`<select name="${k}">${o.map(x=>`<option ${x==v?'selected':''}>${x}</option>`).join('')}</select>`;
+if(t=='ref')return`<select name="${k}"><option value="">— none —</option>${DB[o].map(x=>`<option value="${x.id}" ${x.id==v?'selected':''}>${esc(x.reg||x.name)}</option>`).join('')}</select>`;
+return`<input name="${k}" type="${t=='num'?'number':t||'text'}" value="${esc(v)}" ${t=='num'?'min="0" step="any"':''}>`};
+$('#mb').innerHTML=`<h3>${id?'Edit':'Add'} ${m.t}</h3><div class="fm" id="ff">${m.f.map(f=>`<label>${f[1]}${inp(f)}</label>`).join('')}</div><p><button onclick="sv('${c}','${id||''}')">Save</button> <button class="s" onclick="cl()">Cancel</button></p>`;$('#md').style.display='flex'}
+const cl=()=>$('#md').style.display='none';
+function sv(c,id){const o={};document.querySelectorAll('#ff [name]').forEach(e=>o[e.name]=e.value.trim());const m=M[c];
+const req={trucks:'reg',trips:'truck',ledger:'amount',customers:'name',drivers:'name'}[c];if(!o[req])return alert('Required: '+m.f.find(f=>f[0]==req)[1]);
+if(c=='trucks'&&DB.trucks.some(t=>t.reg.toLowerCase()==o.reg.toLowerCase()&&t.id!=id))return alert('Registration already exists');
+wr(c,id,o)}
+function del(c,id){if(!confirm('Delete this record permanently?'))return;rm(c,id)}
+const tb=(h,rows)=>`<div class="tw"><table><tr>${h.map(x=>`<th>${x}</th>`).join('')}</tr>${rows.map(r=>`<tr>${r.map(x=>`<td>${x}</td>`).join('')}</tr>`).join('')||'<tr><td>None</td></tr>'}</table></div>`;
+function det(c,id){const r=DB[c].find(x=>x.id==id);let h=`<h3>${esc(r.reg||r.name)}</h3>`;
+if(c=='trucks'){const f=flows().filter(x=>x.tr==id),i=f.reduce((a,x)=>a+x.i,0),e=f.reduce((a,x)=>a+x.e,0);
+h+=`<p>Income ${R(i)} · Expenses ${R(e)} · Profit ${pf(i-e)}</p><h3>Maintenance history</h3>`+tb(['Date','Note','Cost'],DB.ledger.filter(l=>l.truck==id&&l.category=='Repair').map(l=>[l.date,esc(l.note),R(l.amount)]))+`<h3>Trips</h3>`+tb(['Date','Route','Profit'],DB.trips.filter(t=>t.truck==id).map(t=>[t.date,esc(t.from+' → '+t.to),pf(t.freight-t.diesel-t.other)]))}
+if(c=='customers'){const s=CS(id);h+=`<p>Billed ${R(s.b)} · Paid ${R(s.p)} · Outstanding <b>${R(s.due)}</b></p><h3>Trip history</h3>`+tb(['Date','Route','Freight'],DB.trips.filter(t=>t.customer==id).map(t=>[t.date,esc(t.from+' → '+t.to),R(t.freight)]))+`<h3>Payment history</h3>`+tb(['Date','Amount','Note'],DB.ledger.filter(l=>l.customer==id&&l.category=='Customer Payment').map(l=>[l.date,R(l.amount),esc(l.note)]))}
+if(c=='drivers'){h+=`<h3>Trip history</h3>`+tb(['Date','Route','Status'],DB.trips.filter(t=>t.driver==id).map(t=>[t.date,esc(t.from+' → '+t.to),t.status]))+`<h3>Salary &amp; payment records</h3>`+tb(['Date','Category','Amount'],DB.ledger.filter(l=>l.driver==id).map(l=>[l.date,l.category,R(l.amount)]))}
+$('#mb').innerHTML=h+'<p><button class="s" onclick="cl()">Close</button></p>';$('#md').style.display='flex'}
+// ---------- dashboard
+function dash(){const t=tot(),act=DB.trips.filter(x=>x.status=='Running').length,done=DB.trips.filter(x=>x.status=='Completed').length;
+const S=(a,b,c)=>`<div class="card stat"><span>${a}</span><b class="${c||''}">${b}</b></div>`;
+const mo=[];for(let k=5;k>=0;k--){const d=new Date();d.setDate(1);d.setMonth(d.getMonth()-k);const key=d.toISOString().slice(0,7),f=flows().filter(x=>(x.d||'').startsWith(key));mo.push([d.toLocaleString('en',{month:'short'}),f.reduce((a,x)=>a+x.i,0),f.reduce((a,x)=>a+x.e,0)])}
+const mx=Math.max(1,...mo.flatMap(x=>[x[1],x[2]]));
+const ch=`<svg viewBox="0 0 360 160" width="100%">${mo.map((x,i)=>`<rect x="${20+i*56}" y="${130-x[1]/mx*110}" width="20" height="${x[1]/mx*110}" fill="#c9d4ea" rx="3"/><rect x="${42+i*56}" y="${130-x[2]/mx*110}" width="20" height="${x[2]/mx*110}" fill="#3b5bb5" rx="3"/><text x="${28+i*56}" y="148">${x[0]}</text>`).join('')}</svg><small style="color:var(--mu)">Silver: income · Blue: expenses</small>`;
+return`<h1>Dashboard</h1><div class="card"><div class="stage"><div class="tr" id="tr"></div></div></div>
+<div class="grid">${S('Total trucks',DB.trucks.length)}${S('Active trips',act)}${S('Completed trips',done)}${S('Total income',R(t.i))}${S('Total expenses',R(t.e))}${S('Net profit',R(t.p),t.p>=0?'pos':'neg')}</div>
+<div class="g2"><div class="card"><h3>Monthly finance (6 months)</h3>${ch}</div><div class="card"><h3>Live truck status</h3>${tb(['Truck','Status','GPS'],DB.trucks.map(x=>{const g=gst(x);return[esc(x.reg),x.status,`<span class="pill" style="background:${g.c}"></span>${g.t}`]}))}</div></div>`}
+function box(w,h,d,x,y,z,c){const f=(W,H,t)=>`<i style="width:${W}px;height:${H}px;margin:${-H/2}px 0 0 ${-W/2}px;transform:${t};background:${c}"></i>`;
+return`<b style="transform:translate3d(${x}px,${y}px,${z}px)">`+f(w,h,`translateZ(${d/2}px)`)+f(w,h,`rotateY(180deg) translateZ(${d/2}px)`)+f(d,h,`rotateY(90deg) translateZ(${w/2}px)`)+f(d,h,`rotateY(-90deg) translateZ(${w/2}px)`)+f(w,d,`rotateX(90deg) translateZ(${h/2}px)`)+f(w,d,`rotateX(-90deg) translateZ(${h/2}px)`)+'</b>'}
+function truck3d(){let h=box(320,12,70,0,26,0,'#222c4a')+box(70,76,72,135,-8,0,'#1b4fc4')+box(4,26,58,171,-16,0,'#9fd0ff')+box(10,6,60,172,18,0,'#c9d4ea')+box(215,74,78,-50,-10,0,'#d5dded')+box(215,8,80,-50,-52,0,'#8fa0c4');
+for(let i=0;i<11;i++){const x=-150+i*30;h+=box(26,26,9,x,44,-42,'#0b0f1c')+box(26,26,9,x,44,42,'#0b0f1c')}
+$('#tr').innerHTML=h}
+// ---------- reports
+function rep(){const p=Q.rp||'monthly',d=Q.rd||today();const len={daily:10,monthly:7,yearly:4}[p],key=d.slice(0,len);
+const f=flows().filter(x=>(x.d||'').startsWith(key)),i=f.reduce((a,x)=>a+x.i,0),e=f.reduce((a,x)=>a+x.e,0);
+const by=(k,c)=>[...new Set(f.map(x=>x[k]).filter(Boolean))].map(id=>{const g=f.filter(x=>x[k]==id),a=g.reduce((s,x)=>s+x.i,0),b=g.reduce((s,x)=>s+x.e,0);return[esc(lab(c,id)),R(a),R(b),pf(a-b)]});
+const T=by('tr','trucks'),C=by('cu','customers');window._x=[['Truck','Income','Expenses','Profit'],...T.map(r=>r.map(v=>String(v).replace(/<[^>]+>/g,''))),[],['Customer','Income','Expenses','Profit'],...C.map(r=>r.map(v=>String(v).replace(/<[^>]+>/g,'')))].map(r=>r.join('\t')).join('\n');
+return`<h1>Reports</h1><div class="bar"><select onchange="Q.rp=this.value;go('reports')">${['daily','monthly','yearly'].map(x=>`<option ${x==p?'selected':''}>${x}</option>`).join('')}</select><input type="date" value="${d}" onchange="Q.rd=this.value;go('reports')"><button onclick="print()">PDF / Print</button><button class="s" onclick="navigator.clipboard.writeText(window._x).then(()=>alert('Copied. Paste into Excel.'),()=>alert('Clipboard blocked'))">Copy for Excel</button></div>
+<div class="card"><h3>Fahad Enterprise — ${p} report (${key})</h3><p>Income ${R(i)} · Expenses ${R(e)} · Profit/Loss ${pf(i-e)}</p></div>
+<div class="card"><h3>Truck-wise profit</h3>${tb(['Truck','Income','Expenses','Profit'],T)}</div><div class="card"><h3>Customer-wise</h3>${tb(['Customer','Income','Expenses','Profit'],C)}</div>`}
+// ---------- GPS
+const gst=x=>{const g=DB.gps[x.id];if(!g||!g.time)return{t:'GPS offline',c:'#f87171'};if(Date.now()-new Date(g.time)>15*60000)return{t:'GPS offline (stale)',c:'#f87171'};return+g.speed>3?{t:'Moving '+Math.round(g.speed)+' km/h',c:'#4ade80'}:{t:'Stopped',c:'#fbbf24'}};
+function gps(){const c=DB.cfg;return`<h1>Live GPS Tracking</h1><div class="g2"><div class="card"><svg id="map" viewBox="0 0 360 300" width="100%" style="background:rgba(255,255,255,.04);border-radius:12px"></svg><small style="color:var(--mu)">Schematic Pakistan map. Markers appear only from real device data.</small></div>
+<div class="card"><h3>Trucks</h3>${DB.trucks.map(x=>{const g=gst(x),p=DB.gps[x.id],h=(p&&p.hist)||[];return`<p><span class="pill" style="background:${g.c}"></span><b>${esc(x.reg)}</b> — ${g.t}<br><small style="color:var(--mu)">${p&&p.time?'Last update: '+new Date(p.time).toLocaleString()+' · '+(+p.lat).toFixed(4)+', '+(+p.lng).toFixed(4)+(h.length>1?' · route '+h[0].lat.toFixed(3)+','+h[0].lng.toFixed(3)+' → '+h[h.length-1].lat.toFixed(3)+','+h[h.length-1].lng.toFixed(3):''):'No location data received'}${x.dev?'':' · no GPS Device ID set'}</small></p>`}).join('')||'No trucks.'}</div></div>
+<div class="card"><h3>GPS provider integration</h3><div class="fm"><label>Provider name<input id="gp" value="${esc(c.prov)}"></label><label>Positions API endpoint (your secure backend/proxy)<input id="gu" value="${esc(c.url)}" placeholder="https://…"></label><label>API key / token<input id="gk" type="password" value="${esc(c.key)}"></label></div>
+<p><button onclick="gsave()">Save settings</button> <button class="s" onclick="gsync()">Sync now</button></p>
+<label style="color:var(--mu)">Or paste positions JSON exported from provider: [{"deviceId":"…","lat":31.5,"lng":74.3,"speed":40,"time":"ISO"}]<textarea id="gj" rows="3" style="width:100%"></textarea></label><p><button class="s" onclick="gingest(JSON.parse(\$('#gj').value||'[]'))">Import positions</button></p></div>`}
+function drawMap(){const X=l=>(l-60)/18*360,Y=l=>(37-l)/14*300;const o='61.6,25.2 66.7,25.4 68.1,23.7 71.1,24.4 71,27.8 74.6,29.9 75.2,32.3 74.5,34.5 77,35.6 75.5,37 72.5,36.8 71.3,36 71.6,34.5 69.9,33 70.3,31.3 66.4,29.8 62.5,29.4';
+let s=`<polygon points="${o.split(' ').map(p=>{const[a,b]=p.split(',');return X(a)+','+Y(b)}).join(' ')}" fill="rgba(201,212,234,.1)" stroke="#c9d4ea"/>`;
+[['Karachi',67,24.86],['Lahore',74.35,31.55],['Islamabad',73.05,33.68],['Quetta',66.99,30.18],['Peshawar',71.57,34]].forEach(c=>s+=`<circle cx="${X(c[1])}" cy="${Y(c[2])}" r="2" fill="#9fb0d4"/><text x="${X(c[1])+4}" y="${Y(c[2])+3}">${c[0]}</text>`);
+DB.trucks.forEach(t=>{const g=DB.gps[t.id];if(!g||!g.time||isNaN(g.lat))return;const h=g.hist||[];if(h.length>1)s+=`<polyline fill="none" stroke="#3b5bb5" stroke-width="2" points="${h.map(p=>X(p.lng)+','+Y(p.lat)).join(' ')}"/>`;const st=gst(t);s+=`<circle cx="${X(g.lng)}" cy="${Y(g.lat)}" r="6" fill="${st.c}" stroke="#fff"/><text x="${X(g.lng)+8}" y="${Y(g.lat)-6}" style="fill:#fff;font-weight:700">${esc(t.reg)}</text>`});
+$('#map').innerHTML=s}
+function gsave(){DB.cfg={prov:$('#gp').value,url:$('#gu').value,key:$('#gk').value};save();alert('GPS settings saved')}
+function gingest(a){if(!Array.isArray(a))a=a.positions||[];let n=0;a.forEach(p=>{const t=DB.trucks.find(x=>x.dev&&x.dev==(p.deviceId||p.id||p.imei));if(!t||isNaN(+p.lat)||isNaN(+p.lng))return;const g=DB.gps[t.id]||{hist:[]};g.hist=(g.hist||[]).concat({lat:+p.lat,lng:+p.lng,time:p.time}).slice(-500);Object.assign(g,{lat:+p.lat,lng:+p.lng,speed:+p.speed||0,time:p.time||new Date().toISOString()});DB.gps[t.id]=g;n++});save();go('gps');alert(n+' position(s) matched to trucks by GPS Device ID')}
+async function gsync(){gsave();if(!DB.cfg.url)return alert('Enter the provider/proxy endpoint first');try{const r=await fetch(DB.cfg.url,{headers:{Authorization:'Bearer '+DB.cfg.key}});if(!r.ok)throw 0;gingest(await r.json())}catch(e){alert('Could not reach GPS endpoint. Trucks stay marked GPS offline. Cross-site requests need your secure backend proxy.')}}
+</script></body></html>
